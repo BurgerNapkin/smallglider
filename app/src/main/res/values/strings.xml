@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Small Glider</string>
+
+    <!-- content descriptions -->
+    <string name="content_description_user_image">ユーザーのイメージ</string>
+    <string name="content_description_navigation_next">次へ</string>
 </resources>
