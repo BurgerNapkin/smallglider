@@ -1,24 +1,16 @@
 package com.zcdorman.smallglider.ui.screens
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import com.zcdorman.smallglider.model.data.User
 
 @Composable
-fun UserDetailsScreen(
-    user: User
-) {
-    ContentView(
-        user
-    )
+fun UserDetailsScreen() {
+    ContentView()
 }
 
 @Composable
-private fun ContentView(
-    user: User
-) {
+private fun ContentView() {
     Column() {
-        Text(user.name)
+        //todo
     }
 }
