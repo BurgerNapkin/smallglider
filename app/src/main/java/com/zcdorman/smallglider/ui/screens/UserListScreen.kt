@@ -1,6 +1,7 @@
 package com.zcdorman.smallglider.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -23,22 +25,14 @@ import coil.request.ImageRequest
 import com.zcdorman.smallglider.R
 import com.zcdorman.smallglider.model.data.User
 
-/**
- * todo
- * 1. lift units out of code
- * 2. material theme
- * 3. text themes
- *
- */
-
 @Composable
-fun UserListScreen(name: String) {
+fun UserListScreen() {
     ContentView()
 }
 
 @Composable
 private fun ContentView() {
-
+    //todo UserListView
 }
 
 @Composable
@@ -50,7 +44,9 @@ private fun UserListView(users: List<User>) {
         items(
             items = users
         ) { user ->
-            UserView(user)
+            UserView(user) {
+                //todo row click
+            }
         }
     }
 }
