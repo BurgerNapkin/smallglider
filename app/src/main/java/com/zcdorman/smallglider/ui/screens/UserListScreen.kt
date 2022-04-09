@@ -33,15 +33,19 @@ import com.zcdorman.smallglider.viewmodel.UserListViewModel
  */
 @Composable
 fun UserListScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: UserListViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
-    ContentView(navController = navController)
+    ContentView(
+        navController,
+        viewModel
+    )
 }
 
 @Composable
 private fun ContentView(
-    viewModel: UserListViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: UserListViewModel
 ) {
     val isLoading = viewModel.isLoading.observeAsState()
     Box(
@@ -49,7 +53,7 @@ private fun ContentView(
     ) {
         UserListView(
             viewModel,
-            navController = navController
+            navController
         )
         if (isLoading.value == true) {
             LoadingView()
@@ -72,8 +76,7 @@ private fun UserListView(
             key = { it.id }
         ) { user ->
             UserView(user) {
-                //todo row click
-                navController.navigate(Routes.USER_DETAILS.name)
+                navController.navigate(Routes.UserDetails(user.userName).fullRoute)
             }
         }
         if (listState.isLastVisible()) {

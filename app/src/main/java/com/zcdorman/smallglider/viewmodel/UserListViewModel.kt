@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
  * ユーザー周りのViewModel
  */
 class UserListViewModel : BaseViewModel() {
-    val _userList = MutableLiveData<List<User>>().apply { value = listOf() }
+    private val _userList = MutableLiveData<List<User>>().apply { value = listOf() }
     val userList: LiveData<List<User>> = _userList
     private var sinceUserList: Int? = null
 
@@ -36,26 +36,6 @@ class UserListViewModel : BaseViewModel() {
                             addAll(userList)
                         }
                         _userList.postValue(newList)
-                    },
-                    onError = {
-                        //Todo: impl
-                    }
-                )
-                setIsLoading(false)
-            }
-        }
-    }
-
-    /**
-     * 指摘したユーザー情報を取得する
-     */
-    fun getUser(userName: String) {
-        doIfNotLoading {
-            viewModelScope.launch {
-                UserCalls.getUser(
-                    userName = userName,
-                    onSuccess = {
-                        //Todo: impl
                     },
                     onError = {
                         //Todo: impl
