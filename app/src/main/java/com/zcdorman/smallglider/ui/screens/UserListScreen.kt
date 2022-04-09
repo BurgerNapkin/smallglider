@@ -25,6 +25,7 @@ import com.zcdorman.smallglider.R
 import com.zcdorman.smallglider.extension.isLastVisible
 import com.zcdorman.smallglider.model.data.User
 import com.zcdorman.smallglider.navigation.Routes
+import com.zcdorman.smallglider.ui.common.LoadingView
 import com.zcdorman.smallglider.viewmodel.UserListViewModel
 
 /**
@@ -34,19 +35,31 @@ import com.zcdorman.smallglider.viewmodel.UserListViewModel
 fun UserListScreen(
     navController: NavHostController
 ) {
-    ContentView(navController)
+    ContentView(navController = navController)
 }
 
 @Composable
 private fun ContentView(
+    viewModel: UserListViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
     navController: NavHostController
 ) {
-    UserListView(navController = navController)
+    val isLoading = viewModel.isLoading.observeAsState()
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        UserListView(
+            viewModel,
+            navController = navController
+        )
+        if (isLoading.value == true) {
+            LoadingView()
+        }
+    }
 }
 
 @Composable
 private fun UserListView(
-    viewModel: UserListViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    viewModel: UserListViewModel,
     navController: NavHostController
 ) {
     val listState = rememberLazyListState()
