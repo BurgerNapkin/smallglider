@@ -68,7 +68,7 @@ private fun UserView(
         RowSpacer()
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(user.imageUrl)
+                .data(user.urlAvatar)
                 .crossfade(false)
                 .build(),
             placeholder = painterResource(id = R.drawable.github_mark_dark),
@@ -83,8 +83,8 @@ private fun UserView(
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            Text(text = user.name)
-            Text(text = user.description)
+            Text(text = user.userName)
+            Text(text = "User ID: ${user.id}")
         }
         RowSpacer()
         Image(
