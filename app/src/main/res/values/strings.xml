@@ -4,4 +4,5 @@
     <!-- content descriptions -->
     <string name="content_description_user_image">ユーザーのイメージ</string>
     <string name="content_description_navigation_next">次へ</string>
+    <string name="content_description_navigation_back">戻るボタン</string>
 </resources>

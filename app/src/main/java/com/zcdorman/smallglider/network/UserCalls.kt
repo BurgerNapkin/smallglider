@@ -1,5 +1,7 @@
 package com.zcdorman.smallglider.network
 
+import android.util.Log
+import com.zcdorman.smallglider.model.data.DetailedUser
 import com.zcdorman.smallglider.model.data.User
 import io.ktor.client.request.*
 
@@ -31,6 +33,7 @@ object UserCalls {
             }
             onSuccess.invoke(users)
         } catch (e: Exception) {
+            Log.e("API", e.toString())
             onError.invoke()
         }
     }
@@ -41,14 +44,15 @@ object UserCalls {
      */
     suspend fun getUser(
         userName: String,
-        onSuccess: (users: User) -> Unit,
+        onSuccess: (detailedUser: DetailedUser) -> Unit,
         onError: () -> Unit,
     ) {
         val url = "https://api.github.com/users/$userName"
         try {
-            val user = Clients.defaultClient.get<User>(url)
+            val user = Clients.defaultClient.get<DetailedUser>(url)
             onSuccess.invoke(user)
         } catch (e: Exception) {
+            Log.e("API", e.toString())
             onError.invoke()
         }
     }
