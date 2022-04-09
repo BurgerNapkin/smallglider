@@ -1,7 +1,6 @@
 package com.zcdorman.smallglider.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,43 +9,62 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.zcdorman.smallglider.R
+import com.zcdorman.smallglider.extension.isLastVisible
 import com.zcdorman.smallglider.model.data.User
+import com.zcdorman.smallglider.navigation.Routes
+import com.zcdorman.smallglider.viewmodel.UserListViewModel
 
+/**
+ * ユーザーの一覧リスト
+ */
 @Composable
-fun UserListScreen() {
-    ContentView()
+fun UserListScreen(
+    navController: NavHostController
+) {
+    ContentView(navController)
 }
 
 @Composable
-private fun ContentView() {
-    //todo UserListView
+private fun ContentView(
+    navController: NavHostController
+) {
+    UserListView(navController = navController)
 }
 
 @Composable
-private fun UserListView(users: List<User>) {
+private fun UserListView(
+    viewModel: UserListViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    navController: NavHostController
+) {
     val listState = rememberLazyListState()
+    val users = viewModel.userList.observeAsState()
     LazyColumn(
         state = listState
     ) {
         items(
-            items = users
+            items = users.value ?: emptyList(),
+            key = { it.id }
         ) { user ->
             UserView(user) {
                 //todo row click
+                navController.navigate(Routes.USER_DETAILS.name)
             }
+        }
+        if (listState.isLastVisible()) {
+            viewModel.getUsers()
         }
     }
 }

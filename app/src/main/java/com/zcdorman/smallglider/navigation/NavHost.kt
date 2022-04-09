@@ -16,10 +16,10 @@ fun SmallGliderNavHost(
         startDestination = Routes.USER_LIST.name
     ) {
         composable(Routes.USER_LIST.name) {
-            UserListScreen()
+            UserListScreen(navController)
         }
         composable(Routes.USER_DETAILS.name) {
-            UserDetailsScreen()
+            UserDetailsScreen(navController)
         }
     }
 }
