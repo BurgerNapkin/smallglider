@@ -1,4 +1,4 @@
-package com.zcdorman.smallglider.navigation
+package com.zcdorman.smallglider.ui.navigation
 
 sealed class Routes(val routeName: String) {
     object UserList : Routes("user_list")

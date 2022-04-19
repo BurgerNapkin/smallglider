@@ -1,4 +1,4 @@
-package com.zcdorman.smallglider.viewmodel
+package com.zcdorman.smallglider.viewmodel.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

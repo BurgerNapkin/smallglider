@@ -1,4 +1,4 @@
-package com.zcdorman.smallglider.ui.screens
+package com.zcdorman.smallglider.ui.composeable.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -24,8 +24,8 @@ import coil.request.ImageRequest
 import com.zcdorman.smallglider.R
 import com.zcdorman.smallglider.extension.isLastVisible
 import com.zcdorman.smallglider.model.data.User
-import com.zcdorman.smallglider.navigation.Routes
-import com.zcdorman.smallglider.ui.common.LoadingView
+import com.zcdorman.smallglider.ui.navigation.Routes
+import com.zcdorman.smallglider.ui.composeable.common.LoadingView
 import com.zcdorman.smallglider.viewmodel.UserListViewModel
 
 /**

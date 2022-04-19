@@ -3,6 +3,8 @@ package com.zcdorman.smallglider.network
 import android.util.Log
 import com.zcdorman.smallglider.model.data.DetailedUser
 import com.zcdorman.smallglider.model.data.User
+import com.zcdorman.smallglider.network.client.Clients
+import com.zcdorman.smallglider.network.routes.NetworkRoutes
 import io.ktor.client.request.*
 
 /**
@@ -13,23 +15,23 @@ import io.ktor.client.request.*
 object UserCalls {
 
     /**
-     * ユーザーリスト取得
-     * @param since 指摘したユーザーIDからデータを
-     * @param perPage ページング数
+     * ユーザーの一覧取得
+     *
+     * @param route
+     * @param onSuccess
+     * @param onError
      */
-    suspend fun getUsers(
-        since: Int? = null,
-        perPage: Int = 30,
+    suspend fun getUserList(
+        route: NetworkRoutes.SearchUsersRoute,
         onSuccess: (users: List<User>) -> Unit,
         onError: () -> Unit
     ) {
-        val url = "https://api.github.com/users"
         try {
-            val users = Clients.defaultClient.get<List<User>>(url) {
-                since?.also {
-                    parameter("since", it)
+            val users = Clients.defaultClient.get<List<User>>(route.url) {
+                route.since?.also { since ->
+                    parameter("since", since)
                 }
-                parameter("per_page", perPage)
+                parameter("per_page", route.perPage)
             }
             onSuccess.invoke(users)
         } catch (e: Exception) {
@@ -39,17 +41,19 @@ object UserCalls {
     }
 
     /**
-     * 指摘したユーザーの情報を取得
-     * @param userName
+     * ユーザー詳細取得
+     *
+     * @param route
+     * @param onSuccess
+     * @param onError
      */
     suspend fun getUser(
-        userName: String,
+        route: NetworkRoutes.UserDetailRoute,
         onSuccess: (detailedUser: DetailedUser) -> Unit,
         onError: () -> Unit,
     ) {
-        val url = "https://api.github.com/users/$userName"
         try {
-            val user = Clients.defaultClient.get<DetailedUser>(url)
+            val user = Clients.defaultClient.get<DetailedUser>(route.url)
             onSuccess.invoke(user)
         } catch (e: Exception) {
             Log.e("API", e.toString())

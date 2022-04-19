@@ -6,22 +6,29 @@ import com.google.gson.annotations.SerializedName
  * 詳細ユーザー情報
  */
 data class DetailedUser(
-    val id: Int,
+    @SerializedName("id")
+    val userId: Int,
     @SerializedName("login")
     val nameLogin: String,
     @SerializedName("name")
     val nameFull: String,
     @SerializedName("twitter_username")
     val twitterUsername: String,
+    @SerializedName("email")
     val email: String,
+    @SerializedName("bio")
     val bio: String,
     @SerializedName("public_repos")
     val publicReposCount: Int,
     @SerializedName("gravatar_id")
     val avatarId: String,
+    @SerializedName("type")
     val type: String,
+    @SerializedName("blog")
     val blog: String,
+    @SerializedName("company")
     val company: String,
+    @SerializedName("location")
     val location: String,
     @SerializedName("node_id")
     val nodeId: String,
@@ -63,5 +70,6 @@ data class DetailedUser(
     val urlFollowing: String,
     @SerializedName("subscriptions_url")
     val urlSubscriptions: String,
+    @SerializedName("plan")
     val plan: Plan,
 )

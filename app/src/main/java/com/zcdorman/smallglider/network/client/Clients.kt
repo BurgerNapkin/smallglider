@@ -1,4 +1,4 @@
-package com.zcdorman.smallglider.network
+package com.zcdorman.smallglider.network.client
 
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*

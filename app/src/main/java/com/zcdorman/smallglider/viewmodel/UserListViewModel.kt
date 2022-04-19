@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zcdorman.smallglider.model.data.User
 import com.zcdorman.smallglider.network.UserCalls
+import com.zcdorman.smallglider.network.routes.NetworkRoutes
+import com.zcdorman.smallglider.viewmodel.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 /**
@@ -13,7 +15,7 @@ import kotlinx.coroutines.launch
 class UserListViewModel : BaseViewModel() {
     private val _userList = MutableLiveData<List<User>>().apply { value = listOf() }
     val userList: LiveData<List<User>> = _userList
-    private var sinceUserList: Int? = null
+    private var sincePolling: Int? = null
 
     init {
         getUsers()
@@ -25,10 +27,10 @@ class UserListViewModel : BaseViewModel() {
     fun getUsers() {
         doIfNotLoading {
             viewModelScope.launch {
-                UserCalls.getUsers(
-                    since = sinceUserList,
+                UserCalls.getUserList(
+                    NetworkRoutes.SearchUsersRoute(since = sincePolling),
                     onSuccess = { userList ->
-                        sinceUserList = userList.lastOrNull()?.id
+                        sincePolling = userList.lastOrNull()?.id
                         val newList = mutableListOf<User>().apply {
                             _userList.value?.also {
                                 addAll(it)
