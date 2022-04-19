@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zcdorman.smallglider.model.data.DetailedUser
 import com.zcdorman.smallglider.network.UserCalls
+import com.zcdorman.smallglider.network.routes.NetworkRoutes
+import com.zcdorman.smallglider.viewmodel.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 /**
@@ -21,7 +23,7 @@ class UserDetailedViewModel : BaseViewModel() {
         doIfNotLoading {
             viewModelScope.launch {
                 UserCalls.getUser(
-                    userName = userName,
+                    route = NetworkRoutes.UserDetailRoute(userName = userName),
                     onSuccess = {
                         _user.value = it
                     },

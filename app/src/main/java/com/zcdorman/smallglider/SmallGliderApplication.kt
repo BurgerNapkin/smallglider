@@ -1,4 +1,4 @@
-package com.zcdorman.smallglider.ui
+package com.zcdorman.smallglider
 
 import android.app.Application
 

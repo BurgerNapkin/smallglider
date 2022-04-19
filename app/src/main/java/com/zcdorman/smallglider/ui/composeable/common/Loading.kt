@@ -1,4 +1,4 @@
-package com.zcdorman.smallglider.ui.common
+package com.zcdorman.smallglider.ui.composeable.common
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
