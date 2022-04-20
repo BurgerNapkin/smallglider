@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,8 +25,9 @@ import coil.request.ImageRequest
 import com.zcdorman.smallglider.R
 import com.zcdorman.smallglider.extension.isLastVisible
 import com.zcdorman.smallglider.model.data.User
+import com.zcdorman.smallglider.ui.composeable.common.ErrorViewGeneral
 import com.zcdorman.smallglider.ui.navigation.Routes
-import com.zcdorman.smallglider.ui.composeable.common.LoadingView
+import com.zcdorman.smallglider.ui.composeable.common.LoadingViewGeneral
 import com.zcdorman.smallglider.viewmodel.UserListViewModel
 
 /**
@@ -47,7 +49,7 @@ private fun ContentView(
     navController: NavHostController,
     viewModel: UserListViewModel
 ) {
-    val isLoading = viewModel.isLoading.observeAsState()
+    val networkState = viewModel.networkState.collectAsState()
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -55,8 +57,11 @@ private fun ContentView(
             viewModel,
             navController
         )
-        if (isLoading.value == true) {
-            LoadingView()
+        if (networkState.value.isLoading()) {
+            LoadingViewGeneral()
+        }
+        if (networkState.value.isError()) {
+            ErrorViewGeneral()
         }
     }
 }
@@ -80,7 +85,7 @@ private fun UserListView(
             }
         }
         if (listState.isLastVisible()) {
-            viewModel.getUsers()
+            viewModel.getUserList()
         }
     }
 }

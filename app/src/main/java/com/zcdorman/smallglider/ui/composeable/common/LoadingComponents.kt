@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun LoadingView() {
+fun LoadingViewGeneral() {
     Box(
         modifier = Modifier.fillMaxSize(1f),
         contentAlignment = Alignment.Center

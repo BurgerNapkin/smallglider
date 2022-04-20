@@ -5,4 +5,6 @@
     <string name="content_description_user_image">ユーザーのイメージ</string>
     <string name="content_description_navigation_next">次へ</string>
     <string name="content_description_navigation_back">戻るボタン</string>
+
+    <string name="network_error">通信エラーが発生しました。</string>
 </resources>
