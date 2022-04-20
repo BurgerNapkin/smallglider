@@ -22,7 +22,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.zcdorman.smallglider.R
 import com.zcdorman.smallglider.model.data.DetailedUser
-import com.zcdorman.smallglider.ui.composeable.common.LoadingView
+import com.zcdorman.smallglider.ui.composeable.common.ErrorViewGeneral
+import com.zcdorman.smallglider.ui.composeable.common.LoadingViewGeneral
 import com.zcdorman.smallglider.viewmodel.UserDetailedViewModel
 
 /**
@@ -54,17 +55,21 @@ private fun ContentView(
     // 一回のみ実行する
     val onlyOnLaunch by remember { mutableStateOf(0) }
     LaunchedEffect(onlyOnLaunch) {
-        viewModel.getUser(userName)
+        viewModel.getDetailedUser(userName)
     }
 
     // ロード中ビュー
-    val isLoading = viewModel.isLoading.observeAsState()
-    if (isLoading.value == true) {
-        LoadingView()
+    val networkState = viewModel.networkState.collectAsState()
+    if (networkState.value.isLoading()) {
+        LoadingViewGeneral()
+    }
+    if (networkState.value.isError()) {
+        ErrorViewGeneral()
     }
 
+    //Todo: エラーハンドリング when user state is out of sync
     val userState = viewModel.user.observeAsState()
-    val user = userState.value ?: return //Todo: エラーハンドリング
+    val user = userState.value ?: return
 
     UserContent(
         user = user,

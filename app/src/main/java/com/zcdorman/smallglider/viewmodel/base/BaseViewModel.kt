@@ -1,24 +1,43 @@
 package com.zcdorman.smallglider.viewmodel.base
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.zcdorman.smallglider.network.state.NetworkState
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.concurrent.atomic.AtomicBoolean
 
+/**
+ * BaseViewModel
+ *
+ */
 open class BaseViewModel : ViewModel() {
-    // ロード中フラグ
-    private val _isLoading = MutableLiveData<Boolean>().apply { value = false }
-    val isLoading: LiveData<Boolean> = _isLoading
+    /**
+     * ロードフラグ
+     */
     private val isLoadingAtomic = AtomicBoolean(false)
+
+    /**
+     * 通信状態
+     */
+    private val _networkState = MutableStateFlow<NetworkState>(NetworkState.Loading)
+    val networkState = _networkState
+
+    /**
+     * 通信状態を更新する
+     *
+     * @param networkState
+     */
+    fun updateNetworkState(networkState: NetworkState) {
+        _networkState.tryEmit(networkState)
+        setIsLoading(false)
+    }
 
     /**
      * ロードフラグ切り替える
      */
-    fun setIsLoading(
+    private fun setIsLoading(
         isLoading: Boolean,
         extra: () -> Unit = {}
     ) {
-        _isLoading.value = isLoading
         isLoadingAtomic.set(isLoading)
         extra.invoke()
     }
@@ -33,22 +52,7 @@ open class BaseViewModel : ViewModel() {
             return
         }
         isLoadingAtomic.set(true)
-        _isLoading.value = true
+        updateNetworkState(NetworkState.Loading)
         extra.invoke()
-    }
-
-    /**
-     * ロード中出なければFalseにする
-     * ロード中だったら、onBusyを呼ぶ
-     */
-    fun trySetNotLoading(
-        onBusy: () -> Unit
-    ) {
-        if (isLoadingAtomic.get()) {
-            onBusy.invoke()
-            return
-        }
-        isLoadingAtomic.set(false)
-        _isLoading.value = false
     }
 }
