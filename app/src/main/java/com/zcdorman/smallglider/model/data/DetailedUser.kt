@@ -13,63 +13,63 @@ data class DetailedUser(
     @SerializedName("name")
     val nameFull: String,
     @SerializedName("twitter_username")
-    val twitterUsername: String,
+    val twitterUsername: String?,
     @SerializedName("email")
-    val email: String,
+    val email: String?,
     @SerializedName("bio")
-    val bio: String,
+    val bio: String?,
     @SerializedName("public_repos")
-    val publicReposCount: Int,
+    val publicReposCount: Int?,
     @SerializedName("gravatar_id")
-    val avatarId: String,
+    val avatarId: String?,
     @SerializedName("type")
-    val type: String,
+    val type: String?,
     @SerializedName("blog")
-    val blog: String,
+    val blog: String?,
     @SerializedName("company")
-    val company: String,
+    val company: String?,
     @SerializedName("location")
-    val location: String,
+    val location: String?,
     @SerializedName("node_id")
-    val nodeId: String,
+    val nodeId: String?,
     @SerializedName("created_at")
-    val createdAt: String,
+    val createdAt: String?,
     @SerializedName("updated_at")
-    val updatedAt: String,
+    val updatedAt: String?,
     @SerializedName("site_admin")
-    val isSiteAdmin: Boolean,
+    val isSiteAdmin: Boolean?,
     @SerializedName("hireable")
-    val isHireable: Boolean,
+    val isHireable: Boolean?,
     @SerializedName("following")
-    val followingCount: Int,
+    val followingCount: Int?,
     @SerializedName("followers")
-    val followersCount: Int,
+    val followersCount: Int?,
     @SerializedName("organizations_url")
-    val urlOrganizations: String,
+    val urlOrganizations: String?,
     @SerializedName("starred_url")
-    val urlStarred: String,
+    val urlStarred: String?,
     @SerializedName("followers_url")
-    val urlFollowers: String,
+    val urlFollowers: String?,
     @SerializedName("public_gists")
-    val publicGistsCount: Int,
+    val publicGistsCount: Int?,
     @SerializedName("url")
-    val urlUser: String,
+    val urlUser: String?,
     @SerializedName("received_events_url")
-    val urlReceivedEvents: String,
+    val urlReceivedEvents: String?,
     @SerializedName("avatar_url")
-    val urlAvatar: String,
+    val urlAvatar: String?,
     @SerializedName("events_url")
-    val urlEvents: String,
+    val urlEvents: String?,
     @SerializedName("html_url")
-    val urlHtml: String,
+    val urlHtml: String?,
     @SerializedName("gists_url")
-    val urlGists: String,
+    val urlGists: String?,
     @SerializedName("repos_url")
-    val urlRepos: String,
+    val urlRepos: String?,
     @SerializedName("following_url")
-    val urlFollowing: String,
+    val urlFollowing: String?,
     @SerializedName("subscriptions_url")
-    val urlSubscriptions: String,
+    val urlSubscriptions: String?,
     @SerializedName("plan")
-    val plan: Plan,
+    val plan: Plan?,
 )

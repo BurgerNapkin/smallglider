@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.zcdorman.smallglider.model.data.User
 import com.zcdorman.smallglider.network.repository.UserRepository
 import com.zcdorman.smallglider.network.routes.NetworkRoutes
-import com.zcdorman.smallglider.network.state.NetworkState
 import com.zcdorman.smallglider.viewmodel.base.BaseViewModel
 import kotlinx.coroutines.launch
 
@@ -20,13 +19,13 @@ class UserListViewModel : BaseViewModel() {
     private var sincePolling: Int? = null
 
     init {
-        getUserList()
+        refreshUserList()
     }
 
     /**
      * ユーザーリストを取得する
      */
-    fun getUserList() {
+    private fun getUserList() {
         doIfNotLoading {
             viewModelScope.launch {
                 userRepo.getUserList(
@@ -39,11 +38,30 @@ class UserListViewModel : BaseViewModel() {
                             }
                             addAll(response.userList)
                         }
-                        _userList.postValue(newList)
-                        updateNetworkState(NetworkState.Success(response = response))
+                        _userList.value = newList
                     }
                 )
             }
+
         }
+    }
+
+    /**
+     * 一覧データをリセットして、最初からデータ取得
+     */
+    private fun refreshUserList() {
+        _userList.postValue(emptyList())
+        sincePolling = null
+        getUserList()
+    }
+
+    /**
+     * ユーザーリストの最後の項目が表示された
+     */
+    fun onEndOfListReached(itemCount: Int) {
+        if (networkState.value.isNotSuccess() || (_userList.value?.count() ?: 0) > itemCount) {
+            return
+        }
+        getUserList()
     }
 }
