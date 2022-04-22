@@ -26,8 +26,8 @@ import com.zcdorman.smallglider.R
 import com.zcdorman.smallglider.extension.isLastVisible
 import com.zcdorman.smallglider.model.data.User
 import com.zcdorman.smallglider.ui.composeable.common.ErrorViewGeneral
-import com.zcdorman.smallglider.ui.navigation.Routes
 import com.zcdorman.smallglider.ui.composeable.common.LoadingViewGeneral
+import com.zcdorman.smallglider.ui.navigation.Routes
 import com.zcdorman.smallglider.viewmodel.UserListViewModel
 
 /**
@@ -53,15 +53,16 @@ private fun ContentView(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        UserListView(
-            viewModel,
-            navController
-        )
-        if (networkState.value.isLoading()) {
-            LoadingViewGeneral()
-        }
         if (networkState.value.isError()) {
             ErrorViewGeneral()
+        } else {
+            UserListView(
+                viewModel,
+                navController
+            )
+        }
+        if (networkState.value.isLoading()) {
+            LoadingViewGeneral()
         }
     }
 }
@@ -85,7 +86,8 @@ private fun UserListView(
             }
         }
         if (listState.isLastVisible()) {
-            viewModel.getUserList()
+            val totalItemCount = listState.layoutInfo.totalItemsCount
+            viewModel.onEndOfListReached(totalItemCount)
         }
     }
 }

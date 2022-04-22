@@ -3,6 +3,7 @@ package com.zcdorman.smallglider.viewmodel.base
 import androidx.lifecycle.ViewModel
 import com.zcdorman.smallglider.network.state.NetworkState
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
@@ -19,7 +20,7 @@ open class BaseViewModel : ViewModel() {
      * 通信状態
      */
     private val _networkState = MutableStateFlow<NetworkState>(NetworkState.Loading)
-    val networkState = _networkState
+    val networkState: StateFlow<NetworkState> = _networkState
 
     /**
      * 通信状態を更新する
@@ -28,18 +29,16 @@ open class BaseViewModel : ViewModel() {
      */
     fun updateNetworkState(networkState: NetworkState) {
         _networkState.tryEmit(networkState)
-        setIsLoading(false)
+        setIsLoading(networkState.isLoading())
     }
 
     /**
      * ロードフラグ切り替える
      */
     private fun setIsLoading(
-        isLoading: Boolean,
-        extra: () -> Unit = {}
+        isLoading: Boolean
     ) {
         isLoadingAtomic.set(isLoading)
-        extra.invoke()
     }
 
     /**

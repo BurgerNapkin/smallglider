@@ -28,6 +28,7 @@ class UserRepository(baseViewModel: BaseViewModel) : BaseRepository(baseViewMode
         route: NetworkRoutes.SearchUsersRoute,
         onSuccess: (response: GetUserListResponse) -> Unit
     ) {
+        updateNetworkState(NetworkState.Loading)
         try {
             val users: List<User> = Clients.defaultClient.get(route.url) {
                 route.since?.also { since ->
@@ -35,9 +36,9 @@ class UserRepository(baseViewModel: BaseViewModel) : BaseRepository(baseViewMode
                 }
                 parameter("per_page", route.perPage)
             }.body()
-            onSuccess.invoke(GetUserListResponse(users))
-            val getUserListResponse = GetUserListResponse(users)
-            updateNetworkState(NetworkState.Success(getUserListResponse))
+            val response = GetUserListResponse(users)
+            onSuccess.invoke(response)
+            updateNetworkState(NetworkState.Success(response))
         } catch (e: Exception) {
             updateNetworkState(e)
         }
