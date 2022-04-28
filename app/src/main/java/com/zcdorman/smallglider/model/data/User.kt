@@ -2,41 +2,23 @@ package com.zcdorman.smallglider.model.data
 
 import com.google.gson.annotations.SerializedName
 
-data class User (
-    @SerializedName("login")
-    val userName : String,
-    @SerializedName("type")
-    val type : String,
-    @SerializedName("site_admin")
-    val isSiteAdmin : Boolean,
-    @SerializedName("id")
-    val id : Int,
-    @SerializedName("gravatar_id")
-    val gravatarId : String,
-    @SerializedName("node_id")
-    val nodeId : String,
-    @SerializedName("url")
-    val url : String,
-    @SerializedName("organizations_url")
-    val urlOrganizations : String,
-    @SerializedName("gists_url")
-    val urlGists : String,
-    @SerializedName("repos_url")
-    val urlRepos : String,
-    @SerializedName("following_url")
-    val urlFollowing : String,
-    @SerializedName("starred_url")
-    val urlStarred : String,
-    @SerializedName("subscriptions_url")
-    val urlSubscriptions : String,
-    @SerializedName("received_events_url")
-    val urlReceivedEvents : String,
-    @SerializedName("avatar_url")
-    val urlAvatar : String,
-    @SerializedName("events_url")
-    val urlEvents : String,
-    @SerializedName("html_url")
-    val urlHtml : String,
-    @SerializedName("followers_url")
-    val urlFollowers : String,
+data class User(
+    @SerializedName("login") var userName: String? = null,
+    @SerializedName("id") var id: Int? = null,
+    @SerializedName("node_id") var nodeId: String? = null,
+    @SerializedName("avatar_url") var urlAvatar: String? = null,
+    @SerializedName("gravatar_id") var gravatarId: String? = null,
+    @SerializedName("url") var url: String? = null,
+    @SerializedName("html_url") var urlHtml: String? = null,
+    @SerializedName("followers_url") var urlFollowers: String? = null,
+    @SerializedName("following_url") var urlFollowing: String? = null,
+    @SerializedName("gists_url") var urlGists: String? = null,
+    @SerializedName("starred_url") var urlStarred: String? = null,
+    @SerializedName("subscriptions_url") var urlSubscriptions: String? = null,
+    @SerializedName("organizations_url") var urlOrganizations: String? = null,
+    @SerializedName("repos_url") var urlRepos: String? = null,
+    @SerializedName("events_url") var urlEvents: String? = null,
+    @SerializedName("received_events_url") var urlReceivedEvents: String? = null,
+    @SerializedName("type") var type: String? = null,
+    @SerializedName("site_admin") var isSiteAdmin: Boolean? = null
 )

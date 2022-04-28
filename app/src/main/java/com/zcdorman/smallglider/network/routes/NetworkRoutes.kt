@@ -8,4 +8,13 @@ sealed class NetworkRoutes(suffix: String) {
         NetworkRoutes("users")
 
     data class UserDetailRoute(val userName: String) : NetworkRoutes("users/$userName")
+    
+    data class UserFollowing(val userName: String, val page: Int, val perPage: Int) :
+        NetworkRoutes("users/$userName/following")
+
+    data class UserFollowers(val userName: String, val page: Int, val perPage: Int) :
+        NetworkRoutes("users/$userName/followers")
+
+    data class UserRepos(val userName: String, val page: Int, val perPage: Int) :
+        NetworkRoutes("users/$userName/repos")
 }

@@ -79,10 +79,10 @@ private fun UserListView(
     ) {
         items(
             items = users.value ?: emptyList(),
-            key = { it.id }
+            key = { it.id!! }
         ) { user ->
             UserView(user) {
-                navController.navigate(Routes.UserDetails(user.userName).fullRoute)
+                navController.navigate(Routes.UserDetails(user.userName ?: "").fullRoute)
             }
         }
         if (listState.isLastVisible()) {
@@ -124,7 +124,7 @@ private fun UserView(
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            Text(text = user.userName)
+            Text(text = user.userName ?: "")
             Text(text = "User ID: ${user.id}")
         }
         RowSpacer()
