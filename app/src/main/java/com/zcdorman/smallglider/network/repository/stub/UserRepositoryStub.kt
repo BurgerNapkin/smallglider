@@ -22,23 +22,23 @@ class UserRepositoryStub(private val baseViewModel: BaseViewModel) : BaseReposit
         val gitUserList = (start..end).map {
             User(
                 "User Name $it",
-                "type",
-                false,
                 it,
+                "$it",
+                "urlAvatar",
                 "gravatarId",
-                "nodeId",
                 "url",
-                "urlOrganizations",
-                "urlGists",
-                "urlRepos",
+                "urlHtml",
+                "urlFollowers",
                 "urlFollowing",
+                "urlGists",
                 "urlStarred",
                 "urlSubscriptions",
-                "urlReceivedEvents",
-                "urlAvatar",
+                "urlOrganizations",
+                "urlRepos",
                 "urlEvents",
-                "urlHtml",
-                "urlFollowers"
+                "urlReceivedEvents",
+                "type",
+                false
             )
         }
         delay(delay)
