@@ -42,7 +42,6 @@ class UserListViewModel : BaseViewModel() {
                     }
                 )
             }
-
         }
     }
 
