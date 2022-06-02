@@ -3,8 +3,8 @@ package com.zcdorman.smallglider.model.data
 import com.google.gson.annotations.SerializedName
 
 data class User(
-    @SerializedName("login") var userName: String? = null,
-    @SerializedName("id") var id: Int? = null,
+    @SerializedName("login") var userName: String,
+    @SerializedName("id") var id: Int,
     @SerializedName("node_id") var nodeId: String? = null,
     @SerializedName("avatar_url") var urlAvatar: String? = null,
     @SerializedName("gravatar_id") var gravatarId: String? = null,

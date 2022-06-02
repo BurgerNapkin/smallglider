@@ -1,4 +1,4 @@
-package com.zcdorman.smallglider.ui.composeable.screens
+package com.zcdorman.smallglider.ui.composeable.screens.userListScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -27,7 +27,7 @@ import com.zcdorman.smallglider.extension.isLastVisible
 import com.zcdorman.smallglider.model.data.User
 import com.zcdorman.smallglider.ui.composeable.common.ErrorViewGeneral
 import com.zcdorman.smallglider.ui.composeable.common.LoadingViewGeneral
-import com.zcdorman.smallglider.ui.navigation.Routes
+import com.zcdorman.smallglider.ui.navigation.NavigationRoutes
 import com.zcdorman.smallglider.viewmodel.UserListViewModel
 
 /**
@@ -79,10 +79,14 @@ private fun UserListView(
     ) {
         items(
             items = users.value ?: emptyList(),
-            key = { it.id!! }
+            key = { user ->
+                user.id
+            }
         ) { user ->
             UserView(user) {
-                navController.navigate(Routes.UserDetails(user.userName ?: "").fullRoute)
+                user.userName.also {
+                    navController.navigate(NavigationRoutes.UserDetails(it).fullRoute)
+                }
             }
         }
         if (listState.isLastVisible()) {

@@ -1,5 +1,6 @@
 package com.zcdorman.smallglider.network.repository
 
+import android.util.Log
 import com.zcdorman.smallglider.model.data.DetailedUser
 import com.zcdorman.smallglider.model.data.Repo
 import com.zcdorman.smallglider.model.data.User
@@ -71,11 +72,19 @@ class UserRepository(baseViewModel: BaseViewModel) : BaseRepository(baseViewMode
         onSuccess: (response: GetUserFollowersResponse) -> Unit
     ) {
         try {
-            val users: List<User> = Clients.defaultClient.get(route.url) {
+            //FixMe: need to extract headers to generate a "next" url
+            val httpResponse = Clients.defaultClient.get(route.url) {
                 parameter("page", route.page)
                 parameter("per_page", route.perPage)
-            }.body()
-            val response = GetUserFollowersResponse(users, route.page, route.perPage)
+            }
+            val headers = httpResponse.headers
+            Log.d(
+                "HEADERS_FOLLOWERS",
+                "${headers.entries().joinToString { "\n${it.key} ${it.value}" }}"
+            )
+            val userList = httpResponse.body<List<User>>()
+            //FixMe: remove +1 after fixing header
+            val response = GetUserFollowersResponse(userList, route.page + 1, route.perPage)
             onSuccess.invoke(response)
             updateNetworkState(NetworkState.Success(response))
         } catch (e: Exception) {
@@ -92,7 +101,7 @@ class UserRepository(baseViewModel: BaseViewModel) : BaseRepository(baseViewMode
                 parameter("page", route.page)
                 parameter("per_page", route.perPage)
             }.body()
-            val response = GetUserFollowingResponse(users, route.page, route.perPage)
+            val response = GetUserFollowingResponse(users, route.page + 1, route.perPage)
             onSuccess.invoke(response)
             updateNetworkState(NetworkState.Success(response))
         } catch (e: Exception) {
