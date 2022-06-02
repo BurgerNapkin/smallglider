@@ -6,8 +6,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.zcdorman.smallglider.ui.composeable.screens.UserDetailsScreen
-import com.zcdorman.smallglider.ui.composeable.screens.UserListScreen
+import com.zcdorman.smallglider.ui.composeable.screens.userListScreen.UserListScreen
+import com.zcdorman.smallglider.ui.composeable.screens.userDetailsScreen.UserDetailsScreen
 
 @Composable
 fun SmallGliderNavHost(
@@ -15,22 +15,22 @@ fun SmallGliderNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Routes.UserList.routeName
+        startDestination = NavigationRoutes.UserList.routeName
     ) {
-        composable(Routes.UserList.routeName) {
+        composable(NavigationRoutes.UserList.routeName) {
             UserListScreen(
                 navController
             )
         }
         composable(
-            Routes.UserDetails.ROUTE_NAME,
+            NavigationRoutes.UserDetails.ROUTE_NAME,
             arguments = listOf(
-                navArgument(Routes.UserDetails.NAV_ARG_NAME) { type = NavType.StringType }
+                navArgument(NavigationRoutes.UserDetails.NAV_ARG_NAME) { type = NavType.StringType }
             )
         ) {
             UserDetailsScreen(
                 navController,
-                it.arguments?.getString(Routes.UserDetails.NAV_ARG_NAME)
+                it.arguments?.getString(NavigationRoutes.UserDetails.NAV_ARG_NAME)
             )
         }
     }

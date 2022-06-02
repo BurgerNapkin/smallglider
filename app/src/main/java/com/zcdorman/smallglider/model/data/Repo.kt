@@ -3,12 +3,12 @@ package com.zcdorman.smallglider.model.data
 import com.google.gson.annotations.SerializedName
 
 data class Repo(
-    @SerializedName("id") var id: Int? = null,
+    @SerializedName("id") var id: Int,
     @SerializedName("node_id") var nodeId: String? = null,
-    @SerializedName("name") var name: String? = null,
+    @SerializedName("name") var name: String,
     @SerializedName("full_name") var fullName: String? = null,
     @SerializedName("private") var private: Boolean? = null,
-    @SerializedName("owner") var owner: User? = User(),
+    @SerializedName("owner") var owner: User,
     @SerializedName("html_url") var htmlUrl: String? = null,
     @SerializedName("description") var description: String? = null,
     @SerializedName("fork") var fork: Boolean? = null,
