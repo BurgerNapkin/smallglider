@@ -116,8 +116,8 @@ private fun UserView(
                 .data(user.urlAvatar)
                 .crossfade(false)
                 .build(),
-            placeholder = painterResource(id = R.drawable.github_mark_dark),
-            error = painterResource(id = R.drawable.github_mark_dark),
+            placeholder = painterResource(id = R.drawable.ic_github_mark),
+            error = painterResource(id = R.drawable.ic_github_mark),
             contentDescription = stringResource(id = R.string.content_description_user_image),
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -134,7 +134,7 @@ private fun UserView(
         RowSpacer()
         Image(
             modifier = Modifier.size(24.dp),
-            painter = painterResource(id = R.drawable.ic_navigate_next_black),
+            painter = painterResource(id = R.drawable.ic_chevron_right),
             contentDescription = stringResource(id = R.string.content_description_navigation_next)
         )
         RowSpacer()

@@ -86,7 +86,7 @@ private fun UserCellComponent(
                     .data(user.urlAvatar)
                     .crossfade(false)
                     .build(),
-                error = painterResource(id = R.drawable.github_mark_dark),
+                error = painterResource(id = R.drawable.ic_github_mark),
                 contentDescription = stringResource(id = R.string.content_description_user_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
