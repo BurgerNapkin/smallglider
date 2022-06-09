@@ -1,10 +1,11 @@
 package com.zcdorman.smallglider.network.response
 
+import com.zcdorman.smallglider.model.data.PagingHelper
 import com.zcdorman.smallglider.model.data.Repo
-import com.zcdorman.smallglider.network.response.base.BaseResponse
+import com.zcdorman.smallglider.network.response.base.PagingBaseResponse
 
-data class GetUserRepoResponse(
-    val repos: List<Repo>,
-    val page: Int,
-    val perPage: Int
-) : BaseResponse()
+class GetUserRepoResponse(
+    val userName: String,
+    nextPagingHelper: PagingHelper,
+    val repos: List<Repo>
+) : PagingBaseResponse(nextPagingHelper = nextPagingHelper)

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -16,10 +17,12 @@ fun UserDetailsEmptyListComponent(
     text: String
 ) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(1f),
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,
+            modifier = Modifier.fillMaxSize(1f),
             fontSize = 14.sp,
             textAlign = TextAlign.Center
         )

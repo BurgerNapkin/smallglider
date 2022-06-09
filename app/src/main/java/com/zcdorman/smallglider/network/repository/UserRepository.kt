@@ -1,11 +1,14 @@
 package com.zcdorman.smallglider.network.repository
 
-import android.util.Log
 import com.zcdorman.smallglider.model.data.DetailedUser
+import com.zcdorman.smallglider.model.data.PagingHelper
 import com.zcdorman.smallglider.model.data.Repo
 import com.zcdorman.smallglider.model.data.User
 import com.zcdorman.smallglider.network.client.Clients
 import com.zcdorman.smallglider.network.repository.base.BaseRepository
+import com.zcdorman.smallglider.network.request.GetUserFollowersRequest
+import com.zcdorman.smallglider.network.request.GetUserFollowingRequest
+import com.zcdorman.smallglider.network.request.GetUserReposRequest
 import com.zcdorman.smallglider.network.response.*
 import com.zcdorman.smallglider.network.routes.NetworkRoutes
 import com.zcdorman.smallglider.network.state.NetworkState
@@ -68,23 +71,28 @@ class UserRepository(baseViewModel: BaseViewModel) : BaseRepository(baseViewMode
     }
 
     suspend fun getUserFollowers(
-        route: NetworkRoutes.UserFollowers,
+        request: GetUserFollowersRequest,
         onSuccess: (response: GetUserFollowersResponse) -> Unit
     ) {
         try {
-            //FixMe: need to extract headers to generate a "next" url
-            val httpResponse = Clients.defaultClient.get(route.url) {
-                parameter("page", route.page)
-                parameter("per_page", route.perPage)
-            }
-            val headers = httpResponse.headers
-            Log.d(
-                "HEADERS_FOLLOWERS",
-                "${headers.entries().joinToString { "\n${it.key} ${it.value}" }}"
+            val httpResponse = Clients.defaultClient.get(
+                NetworkRoutes.UserFollowers(
+                    userName = request.userName,
+                    page = request.pagingHelper.page,
+                    perPage = request.pagingHelper.perPage
+                ).url
             )
-            val userList = httpResponse.body<List<User>>()
-            //FixMe: remove +1 after fixing header
-            val response = GetUserFollowersResponse(userList, route.page + 1, route.perPage)
+            val userList: List<User> = httpResponse.body()
+            val hasNext = userList.size == request.pagingHelper.perPage
+            val response = GetUserFollowersResponse(
+                userName = request.userName,
+                nextPagingHelper = PagingHelper(
+                    page = request.pagingHelper.page + 1,
+                    hasNext = hasNext,
+                    perPage = request.pagingHelper.perPage
+                ),
+                users = userList
+            )
             onSuccess.invoke(response)
             updateNetworkState(NetworkState.Success(response))
         } catch (e: Exception) {
@@ -93,15 +101,28 @@ class UserRepository(baseViewModel: BaseViewModel) : BaseRepository(baseViewMode
     }
 
     suspend fun getUserFollowing(
-        route: NetworkRoutes.UserFollowing,
+        request: GetUserFollowingRequest,
         onSuccess: (response: GetUserFollowingResponse) -> Unit
     ) {
         try {
-            val users: List<User> = Clients.defaultClient.get(route.url) {
-                parameter("page", route.page)
-                parameter("per_page", route.perPage)
-            }.body()
-            val response = GetUserFollowingResponse(users, route.page + 1, route.perPage)
+            val httpResponse = Clients.defaultClient.get(
+                NetworkRoutes.UserFollowing(
+                    userName = request.userName,
+                    page = request.pagingHelper.page,
+                    perPage = request.pagingHelper.perPage
+                ).url
+            )
+            val userList: List<User> = httpResponse.body()
+            val hasNext = userList.size == request.pagingHelper.perPage
+            val response = GetUserFollowingResponse(
+                userName = request.userName,
+                nextPagingHelper = PagingHelper(
+                    page = request.pagingHelper.page + 1,
+                    hasNext = hasNext,
+                    perPage = request.pagingHelper.perPage
+                ),
+                users = userList
+            )
             onSuccess.invoke(response)
             updateNetworkState(NetworkState.Success(response))
         } catch (e: Exception) {
@@ -110,15 +131,26 @@ class UserRepository(baseViewModel: BaseViewModel) : BaseRepository(baseViewMode
     }
 
     suspend fun getUserRepos(
-        route: NetworkRoutes.UserRepos,
+        request: GetUserReposRequest,
         onSuccess: (response: GetUserRepoResponse) -> Unit
     ) {
         try {
-            val repos: List<Repo> = Clients.defaultClient.get(route.url) {
-                parameter("page", route.page)
-                parameter("per_page", route.perPage)
-            }.body()
-            val response = GetUserRepoResponse(repos, route.page, route.perPage)
+            val httpResponse = Clients.defaultClient.get(
+                NetworkRoutes.UserRepos(
+                    userName = request.userName,
+                    page = request.pagingHelper.page,
+                    perPage = request.pagingHelper.perPage
+                ).url
+            )
+            val repos: List<Repo> = httpResponse.body()
+            val response = GetUserRepoResponse(
+                userName = request.userName,
+                nextPagingHelper = PagingHelper(
+                    request.pagingHelper.page + 1,
+
+                    ),
+                repos = repos
+            )
             onSuccess.invoke(response)
             updateNetworkState(NetworkState.Success(response))
         } catch (e: Exception) {

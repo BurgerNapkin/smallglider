@@ -6,5 +6,4 @@ package com.zcdorman.smallglider.network.response.base
  * しかし、プロジェクトが大きくなればなるほどこういうクラスが必要になる
  *
  */
-open class BaseResponse {
-}
+open class BaseResponse

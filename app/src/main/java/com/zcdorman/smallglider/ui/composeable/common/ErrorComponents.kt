@@ -20,7 +20,7 @@ fun ErrorViewGeneral() {
     ) {
         Text(
             text = stringResource(id = R.string.network_error),
-            modifier = Modifier,
+            modifier = Modifier.fillMaxSize(1f),
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center

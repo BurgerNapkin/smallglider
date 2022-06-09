@@ -74,13 +74,13 @@ private fun ContentView(
             navController.popBackStack()
         },
         onEndOfFollowersListReached = { currentItemCount ->
-            //Todo:
+            viewModel.getFollowers()
         },
         onEndOfFollowingListReached = { currentItemCount ->
-            //Todo:
+            viewModel.getFollowing()
         },
         onEndOfRepoListReached = { currentItemCount ->
-            //Todo:
+            viewModel.getRepos()
         }
     )
 }

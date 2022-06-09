@@ -2,9 +2,13 @@ package com.zcdorman.smallglider.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.zcdorman.smallglider.model.data.DetailedUser
+import com.zcdorman.smallglider.model.data.PagingHelper
 import com.zcdorman.smallglider.model.data.Repo
 import com.zcdorman.smallglider.model.data.User
 import com.zcdorman.smallglider.network.repository.UserRepository
+import com.zcdorman.smallglider.network.request.GetUserFollowersRequest
+import com.zcdorman.smallglider.network.request.GetUserFollowingRequest
+import com.zcdorman.smallglider.network.request.GetUserReposRequest
 import com.zcdorman.smallglider.network.response.base.BaseResponse
 import com.zcdorman.smallglider.network.routes.NetworkRoutes
 import com.zcdorman.smallglider.network.state.NetworkState
@@ -39,13 +43,9 @@ class UserDetailedViewModel : BaseViewModel() {
     private val _repos: MutableStateFlow<List<Repo>> = MutableStateFlow(emptyList())
     val repos: StateFlow<List<Repo>> = _repos
 
-    // values per page
-    private val pageCount = 20
-
-    // current page for each list
-    private var followersPageCount = 1
-    private var followingPageCount = 1
-    private var reposPageCount = 1
+    private var followersPagingHelper = PagingHelper(1, true, PER_PAGE)
+    private var followingPagingHelper = PagingHelper(1, true, PER_PAGE)
+    private var reposPagingHelper = PagingHelper(1, true, PER_PAGE)
 
 
     /**
@@ -89,19 +89,18 @@ class UserDetailedViewModel : BaseViewModel() {
     fun getFollowers(
         userName: String = this.userName
     ) {
-        if (followersNetworkState.isNotSuccess()) {
+        if (followersNetworkState.isNotSuccess() || !followersPagingHelper.hasNext) {
             return
         }
         followersNetworkState = NetworkState.Loading
         viewModelScope.launch {
             userRepo.getUserFollowers(
-                NetworkRoutes.UserFollowers(
-                    userName,
-                    followersPageCount,
-                    pageCount
+                GetUserFollowersRequest(
+                    userName = userName,
+                    pagingHelper = followersPagingHelper
                 )
             ) {
-                followersPageCount = it.page
+                followersPagingHelper = it.nextPagingHelper
                 _followers.apply {
                     tryEmit(
                         value.toMutableList().apply {
@@ -122,19 +121,18 @@ class UserDetailedViewModel : BaseViewModel() {
     fun getFollowing(
         userName: String = this.userName
     ) {
-        if (followingNetworkState.isNotSuccess()) {
+        if (followingNetworkState.isNotSuccess() || !followingPagingHelper.hasNext) {
             return
         }
         followingNetworkState = NetworkState.Loading
         viewModelScope.launch {
             userRepo.getUserFollowing(
-                NetworkRoutes.UserFollowing(
-                    userName,
-                    followingPageCount,
-                    pageCount
+                GetUserFollowingRequest(
+                    userName = userName,
+                    pagingHelper = followingPagingHelper
                 )
             ) {
-                followingPageCount = it.page
+                followingPagingHelper = it.nextPagingHelper
                 _following.apply {
                     tryEmit(
                         value.toMutableList().apply {
@@ -155,19 +153,18 @@ class UserDetailedViewModel : BaseViewModel() {
     fun getRepos(
         userName: String = this.userName
     ) {
-        if (reposNetworkState.isNotSuccess()) {
+        if (reposNetworkState.isNotSuccess() || !reposPagingHelper.hasNext) {
             return
         }
         reposNetworkState = NetworkState.Loading
         viewModelScope.launch {
             userRepo.getUserRepos(
-                NetworkRoutes.UserRepos(
-                    userName,
-                    reposPageCount,
-                    pageCount
+                GetUserReposRequest(
+                    userName = userName,
+                    pagingHelper = reposPagingHelper
                 )
             ) {
-                reposPageCount = it.page
+                reposPagingHelper = it.nextPagingHelper
                 _repos.apply {
                     tryEmit(
                         value.toMutableList().apply {
@@ -178,5 +175,9 @@ class UserDetailedViewModel : BaseViewModel() {
                 reposNetworkState = NetworkState.Success(it)
             }
         }
+    }
+
+    companion object {
+        private const val PER_PAGE = 20
     }
 }
