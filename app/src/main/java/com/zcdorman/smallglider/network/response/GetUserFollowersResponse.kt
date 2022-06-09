@@ -1,10 +1,11 @@
 package com.zcdorman.smallglider.network.response
 
+import com.zcdorman.smallglider.model.data.PagingHelper
 import com.zcdorman.smallglider.model.data.User
-import com.zcdorman.smallglider.network.response.base.BaseResponse
+import com.zcdorman.smallglider.network.response.base.PagingBaseResponse
 
 class GetUserFollowersResponse(
-    val users: List<User>,
-    val page: Int,
-    val perPage: Int
-) : BaseResponse()
+    val userName: String,
+    nextPagingHelper: PagingHelper,
+    val users: List<User>
+) : PagingBaseResponse(nextPagingHelper = nextPagingHelper)
