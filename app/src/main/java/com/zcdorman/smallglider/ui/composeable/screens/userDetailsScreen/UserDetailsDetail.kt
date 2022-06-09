@@ -39,15 +39,15 @@ fun UserDetailDetailsComponent(
     ) {
 
         //header
+        SpacerVerticalSmall()
         Row {
             Image(
                 modifier = Modifier
-                    .padding(12.dp)
-                    .size(24.dp)
+                    .size(36.dp)
                     .clickable {
                         onBackPressed.invoke()
                     },
-                painter = painterResource(id = R.drawable.ic_back_arrow_black),
+                painter = painterResource(id = R.drawable.ic_back),
                 contentDescription = stringResource(id = R.string.content_description_navigation_back)
             )
         }
@@ -64,7 +64,7 @@ fun UserDetailDetailsComponent(
                     .data(user.urlAvatar)
                     .crossfade(false)
                     .build(),
-                error = painterResource(id = R.drawable.github_mark_dark),
+                error = painterResource(id = R.drawable.ic_github_mark),
                 contentDescription = stringResource(id = R.string.content_description_user_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
